@@ -1,0 +1,10 @@
+[package]
+name = "sempre-ir"
+version = "0.1.0"
+edition = "2021"
+description = "Typed Formula IR for SEMPRE: parse, type-check, execute, verify. Std-only."
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
