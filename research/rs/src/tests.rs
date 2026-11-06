@@ -18,7 +18,7 @@ mod tests {
         w
     }
     fn evw(s: &str) -> Value { let w = demo_world(); execute_w(&parse(s).unwrap(), &mut Vec::new(), &w).unwrap() }
-    #[test] fn table_count_select_field() { assert_eq!(evw("(call count (call select (table employees) (lambda r (call > (call field (var r) (string salary)) (number 70000))))"), Value::Number(3.0)); }
+    #[test] fn table_count_select_field() { let q = concat!("(call count ", "(call select (table employees) (lambda r (call > (call field (var r) (string salary)) (number 70000))))", ")"); assert_eq!(evw(q), Value::Number(3.0)); }
     #[test] fn table_sum_project_select() { assert_eq!(evw("(call sum (call project (call select (table employees) (lambda r (call = (call field (var r) (string dept)) (string eng)))) (string salary)))"), Value::Number(215000.0)); }
     #[test] fn table_argmax_project() { assert_eq!(evw("(call project (call argmax (table employees) (string salary)) (string name))"), Value::List(vec![Value::Str("Alice".into())])); }
     #[test] fn table_join_count() { assert_eq!(evw("(call count (call join (table employees) (table departments) (string dept) (string dept)))"), Value::Number(5.0)); }
