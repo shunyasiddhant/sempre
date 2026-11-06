@@ -1,0 +1,10 @@
+[package]
+name = "sempre-tables"
+version = "0.1.0"
+edition = "2021"
+description = "Bitset row-set table semantics in the SEMPRE/Lambda-DCS style. Std-only."
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
