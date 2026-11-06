@@ -22,7 +22,9 @@ fn demo_world() -> World {
 }
 fn tables() {
     let w = demo_world();
-    let queries = [("how many employees earn > 70000?", "(call count (call select (table employees) (lambda r (call > (call field (var r) (string salary)) (number 70000))))"), ("total eng salary?", "(call sum (call project (call select (table employees) (lambda r (call = (call field (var r) (string dept)) (string eng)))) (string salary)))"), ("highest-paid employee?", "(call project (call argmax (table employees) (string salary)) (string name))"), ("employees joined with departments: how many rows?", "(call count (call join (table employees) (table departments) (string dept) (string dept)))")];
+    let q1 = "(call count (call select (table employees) (lambda r (call > (call field (var r) (string salary)) (number 70000)))) )";
+    let q1 = q1.replace(" ", "");
+    let queries = [("how many employees earn > 70000?", q1.as_str()), ("total eng salary?", "(call sum (call project (call select (table employees) (lambda r (call = (call field (var r) (string dept)) (string eng)))) (string salary)))"), ("highest-paid employee?", "(call project (call argmax (table employees) (string salary)) (string name))"), ("employees joined with departments: how many rows?", "(call count (call join (table employees) (table departments) (string dept) (string dept)))")];
     for (q, src) in queries { let e = parse(src).unwrap(); let t = type_of(&e, &[]).unwrap(); let v = execute_w(&e, &mut Vec::new(), &w).unwrap(); println!("Q: {q}\n  formula: {src}\n  type: {} -> {:?}", t.name(), v); }
     let src = queries[1].1; let n = 200_000u64; let t0 = Instant::now(); let mut acc = 0.0;
     for _ in 0..n { let e = parse(src).unwrap(); let _ = type_of(&e, &[]).unwrap(); if let Value::Number(v) = execute_w(&e, &mut Vec::new(), &w).unwrap() { acc += v; } }
