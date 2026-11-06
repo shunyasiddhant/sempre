@@ -124,7 +124,7 @@ public class Voxel extends Item {
     else if (property.equals("row") && value instanceof Integer)
       this.row = (Integer) value;
     else if (property.equals("col") && value instanceof Integer)
-      this.height = (Integer) value;
+      this.col = (Integer) value; // Fixed copy-paste bug (was this.height)
     else if (property.equals("color") && value instanceof String)
       this.color = Color.fromString(value.toString());
     else if (value instanceof Set)
@@ -174,8 +174,6 @@ public class Voxel extends Item {
     result = prime * result + col;
     result = prime * result + height;
     result = prime * result + row;
-    // result = prime * result + (this.color == (CubeColor.Anchor)? 1 : 0);
-
     return result;
   }
 
@@ -196,10 +194,6 @@ public class Voxel extends Item {
     if (row != other.row)
       return false;
 
-    // only anchored colors need to be the same.
-    // if (this.color == CubeColor.Anchor ^ other.color == CubeColor.Anchor &&
-    // this.height == 0)
-    // return false;
     return true;
   }
 
